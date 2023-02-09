@@ -1,0 +1,500 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="main.a.b.product.vo.ProductVO" %>
+<%@ page import="main.a.b.product.common.NumUtils" %>
+<%@ page import="main.a.b.product.common.CodeUtils" %>
+<%@ page import="org.apache.log4j.LogManager" %>
+<%@ page import="org.apache.log4j.Logger" %>
+<%
+	Logger logger = LogManager.getLogger(this.getClass());
+	logger.info("selectAll 진입");
+
+	List<ProductVO> list = (List<ProductVO>)request.getAttribute("list");
+
+	
+	
+	ProductVO _pvo = (ProductVO)request.getAttribute("Paging");
+	
+	String minPay = "";
+	String maxPay = "";
+	String textMinPay = "";
+	String textMaxPay = "";
+	String pcategory = "";
+	String pcategory_detail = "";
+	String detail_product = "";
+	int rowCount = Integer.parseInt(_pvo.getRowCount());
+	int groupSize = Integer.parseInt(_pvo.getGroupSize());
+	int nowPage = Integer.parseInt(_pvo.getNowPage());
+	
+		minPay = _pvo.getMinPay();
+		logger.info(minPay);
+	
+		if(minPay != null && minPay != ""){
+			textMinPay = minPay;
+		}else{
+			textMinPay = "0";
+		}
+		
+		maxPay = _pvo.getMaxPay();
+		logger.info(maxPay);
+	
+		if(maxPay != null && maxPay != ""){
+			textMaxPay = maxPay;
+		}else{
+			textMaxPay = "0";
+		}
+	
+	int totalCount = 0;
+	totalCount = Integer.parseInt(list.get(0).getTotalCount());
+
+	String val = (String)request.getAttribute("val");
+	
+	pcategory = _pvo.getPcategory();
+	pcategory_detail = _pvo.getPcategory_detail();
+	detail_product = _pvo.getDetail_product();
+	
+	String url = "productSelectCount.pid";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+
+ $(document).ready(function(){
+	 
+	 $(function(){
+		 
+		 $("#magin").prop('checked', true);
+		 
+		 if("01" == "<%=val %>"){
+			 $("#two").prop('selected', true);
+		 }else  if("02" == "<%=val %>"){
+			 $("#three").prop('selected', true);
+		 }else  if("03" == "<%=val %>"){
+			 $("#four").prop('selected', true);
+		 }else  if("04" == "<%=val %>"){
+			 $("#five").prop('selected', true);
+		 }else{
+			 $("#one").prop('selected', true);
+		 }
+		 
+		 }); 
+		 
+		 $(function(){
+			 if("01" == "<%=pcategory%>"){
+				 $("#pcate2").prop('selected', true);
+			 }else if("02" == "<%=pcategory%>"){
+				 $("#pcate3").prop('selected', true);
+			 }
+			 
+		 });
+		 
+		 $(function(){
+			 if("01" == "<%=pcategory_detail%>"){
+				 $("#pcate_d2").prop('selected', true);
+			 }else if("02" == "<%=pcategory_detail %>"){
+				 $("#pcate_d3").prop('selected', true);
+			 }
+		 });
+		 
+		 $(function(){
+			 if("01" == "<%=detail_product%>"){
+				 $("#detail_p2").prop('selected', true);
+			 }else if("02" == "<%=detail_product%>"){
+				 $("#detail_p3").prop('selected', true);
+			 }else if("03" == "<%=detail_product%>"){
+				 $("#detail_p4").prop('selected', true);
+			 }else if("04" == "<%=detail_product%>"){
+				 $("#detail_p5").prop('selected', true);
+			 }  
+			 
+		 });
+	 
+	 $("#magin").click(function(){
+			 
+			 
+		 if($("#magin").prop('checked', false)){
+			
+			 let val = $("#lookStyle").val();
+			 
+			 let nowPage = null;
+			 $("#nowPage").val(nowPage);
+			 
+			 $("#val").val(val);
+			 
+			 $("#product").attr({
+				 'action':'productSelectAll.pid',
+				'method':'POST',
+				'enctype':'application/x-www-form-urlencoded'
+			 }).submit();
+			 
+		 }
+		 
+		 
+	 });
+	 
+ $("#lookStyle").change(function(){
+		 
+		 let val = $("#lookStyle").val();
+		 console.log("val : " + val);
+		 $("#val").val(val);
+		 
+		 let pcate = $("#pcategory").val();
+		 console.log("pcate : " + pcate);
+		 $("#pcategory1").val(pcate);
+		 
+		 let pcate_d = $("#detail").val();
+		 console.log("detail : " + detail);
+		 $("#pcategory_detail").val(pcate_d);
+		 
+		 let d_pro = $("#detail_p").val();
+		 console.log("d_pro : " + d_pro);
+		 $("#detail_product").val(d_pro);
+		 
+		 let nowPage = null;
+		 $("#nowPage").val(nowPage);
+		 
+		 $("#product").attr({
+			 'action':'productSelectCount.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+		 
+		 
+	 });
+	 
+ 	$("#pcategory").change(function(){
+		 
+		 let val = $("#lookStyle").val();
+		 console.log("val : " + val);
+		 $("#val").val(val);
+		 
+		 let pcate = $("#pcategory").val();
+		 console.log("pcate : " + pcate);
+		 $("#pcategory1").val(pcate);
+		 
+		 let pcate_d = $("#detail").val();
+		 console.log("detail : " + detail);
+		 $("#pcategory_detail").val(pcate_d);
+		 
+		 let d_pro = $("#detail_p").val();
+		 console.log("d_pro : " + d_pro);
+		 $("#detail_product").val(d_pro);
+		 
+		 let nowPage = null;
+		 $("#nowPage").val(nowPage);
+		 
+		 $("#product").attr({
+			 'action':'productSelectCount.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+		 
+		 
+	 });
+ 
+	 $("#detail").change(function(){
+		 let val = $("#lookStyle").val();
+		 console.log("val : " + val);
+		 $("#val").val(val);
+		 
+		 let pcate = $("#pcategory").val();
+		 console.log("pcate : " + pcate);
+		 $("#pcategory1").val(pcate);
+		 
+		 let pcate_d = $("#detail").val();
+		 console.log("detail : " + detail);
+		 $("#pcategory_detail").val(pcate_d);
+		 
+		 let d_pro = $("#detail_p").val();
+		 console.log("d_pro : " + d_pro);
+		 $("#detail_product").val(d_pro);
+		 
+		 let nowPage = null;
+		 $("#nowPage").val(nowPage);
+		 
+		 $("#product").attr({
+			 'action':'productSelectCount.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+		 
+		 
+	 });
+	 $("#detail_p").change(function(){
+		 let val = $("#lookStyle").val();
+		 console.log("val : " + val);
+		 $("#val").val(val);
+		 
+		 let pcate = $("#pcategory").val();
+		 console.log("pcate : " + pcate);
+		 $("#pcategory1").val(pcate);
+		 
+		 let pcate_d = $("#detail").val();
+		 console.log("detail : " + detail);
+		 $("#pcategory_detail").val(pcate_d);
+		 
+		 let d_pro = $("#detail_p").val();
+		 console.log("d_pro : " + d_pro);
+		 $("#detail_product").val(d_pro);
+		 
+		 let nowPage = null;
+		 $("#nowPage").val(nowPage);
+		 
+		 $("#product").attr({
+			 'action':'productSelectCount.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+		 
+		 
+	 });
+	 
+	 $("#cashBtn").click(function(){
+		 
+		 let val = $("#lookStyle").val();
+		 
+		 $("#val").val(val);
+		 
+		 $("#product").attr({
+			 'action':'productSelectCount.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+		 
+		 
+	 });
+
+	 $("#resetBtn").click(function(){
+		 let val = $("#lookStyle").val();
+		 
+		 $("#minPay").val("");
+			$("#maxPay").val("");
+			 
+			 $("#val").val(val);
+			 
+			 let nowPage = null;
+			 $("#nowPage").val(nowPage);
+		 
+		 $("#product").attr({
+			 'action':'productSelectAll.pid',
+			'method':'POST',
+			'enctype':'application/x-www-form-urlencoded'
+		 }).submit();
+	 });
+ 
+	 $(".productClick").click(function(){
+	 		
+	 		let pnum = $(this).siblings().get(0).value;
+	 		console.log(pnum);
+	 		
+	 		$("#pnum").val(pnum);
+	 		 $("#product").attr({
+				 'action':'product.pid',
+				'method':'POST',
+				'enctype':'application/x-www-form-urlencoded'
+			 }).submit();
+	 		
+	 	});
+	 
+ 
+ 
+ });
+
+
+
+
+
+
+</script>
+<style>
+
+.link{
+		margin:2px;
+		list-style-type:none;
+		float:left;
+		padding:9px 15px 9px 15px;
+		border:1px solid #ebebeb; 
+		}
+	.hi{
+		color:#888;
+		text-decoration: none;
+		font-weight: 500;
+	}
+
+	.hello{
+	color:#ff5e5e;
+		text-decoration: none;
+		
+	}
+	#list{
+		text-align:center;
+		
+	}
+	#block{
+	display:inline-block;
+	}
+	.image{
+		width:100px;
+		height:100px;
+		border-radius:15px;
+	}
+	.productname{
+		width:200px;
+	}
+	
+</style>
+</head>
+<body>
+<form id="product" name="product">
+<div class="container">
+<br><br><br>
+<h2 style="text-align:center;">상품 소개</h2>
+<br><br><br>
+<table>
+<tr>
+<td>
+<select id="lookStyle" style="width:160px;">
+	<option value="00" id="one" selected>선택</option>
+	<option value="01" id="two">가격 높은 순</option>
+	<option value="02" id="three">가격 낮은 순</option>
+	<option value="03" id="four">상품명 오름차순</option>
+	<option value="04" id="five">상품명 내림차순</option>
+</select>
+</td>
+<td style="width:100%; text-align:right;" >가격 검색 : &nbsp;
+<input type="text" name="minPay" id="minPay" value="<%=NumUtils.comma(Integer.parseInt(textMinPay))%>" style="width:80px; text-align:right;">&nbsp;원&nbsp;&nbsp;~&nbsp;&nbsp;
+<input type="text" name="maxPay" id="maxPay" value="<%=NumUtils.comma(Integer.parseInt(textMaxPay))%>" style="width:80px;text-align:right;">&nbsp;원&nbsp;&nbsp;&nbsp;
+<input type="button" id="cashBtn" value="검색" style="text-align:right;">&nbsp;
+<input type="button" id="resetBtn" value="초기화" style="text-align:right;">
+</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td><br></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr><td>
+<input type="checkbox" id="magin">매진 항목 제외하기
+</td>
+<td style="text-align:right;">
+<select id="pcategory" >
+	<option value="00" id="pcate1" selected>전체</option>
+	<option value="01" id="pcate2">남성</option>
+	<option value="02" id="pcate3">여성</option>
+</select>
+<select id="detail" >
+	<option value="00" id="pcate_d1" selected>전체</option>
+	<option value="01" id="pcate_d2">샴푸</option>
+	<option value="02" id="pcate_d3">로션</option>
+</select>
+<select id="detail_p" >
+	<option value="00" id="detail_p1" selected>전체</option>
+	<option value="01" id="detail_p2">천연</option>
+	<option value="02" id="detail_p3">모공 축소</option>
+	<option value="03" id="detail_p4">향기</option>
+	<option value="04" id="detail_p5">기타</option>
+</select>
+</td>
+</tr>
+</table>
+<table class="table table-hover">
+	<tr style="text-align:center;">
+		<td></td>
+		<td>이미지</td>
+		<td>상품명</td>
+		<td>가격</td>
+		<td>재고</td>
+	</tr>
+<%
+
+	for(int i=0; i < list.size(); i++){
+		ProductVO pvo = list.get(i);
+		
+		
+%>
+	<tr>
+		<input type="hidden" name="pnm" id="pnm" value="<%=pvo.getPnum() %>" />
+		<td style="text-align:center;"><input type="checkbox" class="check" name="check"></td>
+		<td style="text-align:center;"><img src="/product/img/<%=pvo.getPimage()%>.jpg" class="image"></td>
+		<td style="text-align:center;" class="productClick"><%=pvo.getPname() %></td>
+		<td style="text-align:right;"><%=NumUtils.comma(pvo.getPpay()) %>원</td>
+		<td style="text-align:center;"><%=CodeUtils.inttoText(pvo.getPcount()) %></td>
+	</tr>
+
+<%		
+	}
+
+%>
+<input type="hidden" name="pnum" id="pnum" value="" />
+<input type="hidden" id="val" name="val" value="">
+<input type="hidden" id="pcategory1" name="pcategory" value="">
+<input type="hidden" id="pcategory_detail" name="pcategory_detail" value="">
+<input type="hidden" id="detail_product" name="detail_product" value="">
+<input type="hidden" id="nowPage" name="nowPage" value="">
+</table>
+</div>
+	<div>
+	<jsp:include page="/WEB-INF/view/Paging.jsp" flush="true">
+					<jsp:param name="url" value="productSelectCount.pid" />
+					<jsp:param value="" name="str"/>
+					<jsp:param name="val" value="<%=val %>" />
+					<jsp:param name="pcategory" value="<%=_pvo.getPcategory() %>" />
+					<jsp:param name="pcategory_detail" value="<%=_pvo.getPcategory_detail() %>" />
+					<jsp:param name="detail_product" value="<%=_pvo.getDetail_product() %>" />
+					<jsp:param name="minPay" value="<%=minPay %>" />
+					<jsp:param name="maxPAy" value="<%=maxPay %>" />
+					<jsp:param name="rowCount" value="<%=rowCount %>" />
+					<jsp:param name="groupSize" value="<%=groupSize %>" />
+					<jsp:param name="nowPage" value="<%=nowPage %>"/>
+					<jsp:param name="totalCount" value="<%=totalCount %>"/>
+	</jsp:include>
+	</div>
+	</form>
+	<script type="text/javascript">
+
+function goPost(page){
+		
+	 let val = $("#lookStyle").val();
+	 console.log("val : " + val);
+	 $("#val").val(val);
+	 
+	 let pcate = $("#pcategory").val();
+	 console.log("pcate : " + pcate);
+	 $("#pcategory1").val(pcate);
+	 
+	 let pcate_d = $("#detail").val();
+	 console.log("detail : " + detail);
+	 $("#pcategory_detail").val(pcate_d);
+	 
+	 let d_pro = $("#detail_p").val();
+	 console.log("d_pro : " + d_pro);
+	 $("#detail_product").val(d_pro);
+	 
+	 $("#nowPage").val(page);
+		
+
+		$("#product").attr({
+	   			'action':'<%=url%>',
+	   			'method':'POST',
+	   			'enctype':'application/x-www-form-urlencoded'
+	   	}).submit();
+		
+}
+
+
+</script>
+</body>
+</html>

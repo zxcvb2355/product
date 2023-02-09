@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품 등록</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("#insertBtn").click(function(){
+			
+			let p1 = $("#p1").val();
+			let pc = $("#pc").val();
+		});
+		
+		
+		
+	});
+
+
+
+</script>
+</head>
+<body>
+<h2 style="text-align:center;">상품 등록</h2><br>
+<form id="insert" name="insert">
+<table align="center">
+<tr>
+<td>물품명</td>
+<td><input type="text" id="pname" name="pname" placeholder="물품명 기입"></td>
+</tr>
+<tr>
+<td>설명</td>
+<td><input type="textarea" id="pcontent" name="pcontent" placeholder="물품설명 기입">
+</td>
+</tr>
+<tr>
+<td>가격</td>
+<td><input type="text" id="ppay" name="ppay" placeholder="가격 기입"></td>
+</tr>
+<tr>
+<td>재고 수량</td>
+<td><input type="text" id="pcount" name="pcount" placeholder="재고 수량 기입"></td>
+</tr>
+<tr>
+<td>분류</td>
+<td><select id="p1">
+	<option value="01" id="pcate1" selected>남성</option>
+	<option value="02" id="pcate2">여성</option>
+</select>
+<select id="pc">
+	<option value="01" id="pcate_d1" selected>샴푸</option>
+	<option value="02" id="pcate_d2">로션</option>
+</select>
+<select id="de">
+	<option value="01" id="detail_p2" selected>천연</option>
+	<option value="02" id="detail_p3">모공 축소</option>
+	<option value="03" id="detail_p4">향기</option>
+	<option value="04" id="detail_p5">기타</option>
+</select>
+</td>
+</tr>
+<tr>
+<td>이미지</td>
+<td><input type="file" id="pimage" name="pimage" value="파일 찾아보기"></td>
+</tr>
+
+<tr>
+<td colspan="2" style="text-align:right;"><input type="button" id="insertBtn" value="상품 등록">
+<input type="button" id="selectBtn" value="상품 목록 가기">
+</td>
+</tr>
+</table>
+<input type="hidden" id="pcategory" name="pcategory" value="">
+<input type="hidden" id="pcategory_detail" name="pcategory_detail" value="">
+<input type="hidden" id="detail_product" name="detail_product" value="">
+</form>
+</body>
+</html>

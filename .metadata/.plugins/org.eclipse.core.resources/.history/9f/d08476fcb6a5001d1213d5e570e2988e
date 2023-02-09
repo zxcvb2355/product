@@ -1,0 +1,25 @@
+package main.a.b.product.common;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+public class product_Session {
+
+	static Logger logger = LogManager.getLogger(product_Session.class);
+
+	private static final String SESSION_DATA = "pnum";
+	
+	private static final String SESSION_TOKKEN = "access_token";
+
+	
+	private static class LazyHolder {
+		
+		public static final product_Session SESSIONLISTENER_INSTANCE = new product_Session(); 
+	}
+	
+	
+	public product_Session getInstance() {
+		return LazyHolder.SESSIONLISTENER_INSTANCE;
+	}
+
+}

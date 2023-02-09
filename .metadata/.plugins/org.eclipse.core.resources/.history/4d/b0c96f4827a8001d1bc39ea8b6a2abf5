@@ -1,0 +1,9 @@
+package main.a.b.login.service;
+
+import main.a.b.login.vo.LoginVO;
+
+public interface LoginService {
+
+	public int memInsert(LoginVO lvo);
+	
+}

@@ -1,0 +1,5 @@
+package main.a.b.login.vo;
+
+public class LoginVO {
+
+}

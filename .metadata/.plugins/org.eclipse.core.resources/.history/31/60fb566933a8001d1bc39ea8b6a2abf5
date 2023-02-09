@@ -1,0 +1,79 @@
+package main.a.b.login.controller;
+
+import java.util.List;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import main.a.b.common.ChabunUtils;
+import main.a.b.common.chabun.service.ProductChabunService;
+import main.a.b.login.service.LoginService;
+import main.a.b.login.vo.LoginVO;
+
+@Controller
+public class LoginController {
+	
+	Logger logger = LogManager.getLogger(LoginController.class);
+	
+	@Autowired(required=false)
+	private LoginService loginService;
+	
+	@Autowired(required=false)
+	private ProductChabunService productChabunService;
+	
+	
+	@PostMapping(value="/loginForm")
+	public String loginForm() {
+		
+		return "login/loginForm";
+	}
+	
+	@PostMapping(value="/loginCheck")
+	public String loginCheck(LoginVO lvo, Model m) {
+		
+		logger.info("mid : " + lvo.getMid());
+		logger.info("mpw : " + lvo.getMpw());
+		
+		List<LoginVO> list = loginService.idpwCheck(lvo);
+		
+		if(list.size() > 0) {
+			
+			m.addAttribute("list", list);
+			return "login/loginGood";
+		}
+		
+		String a = "실패";
+		m.addAttribute("a", a);
+		return "login/loginForm";
+	}
+	
+	
+	@PostMapping(value="/memInsertForm")
+	public String memInsertForm() {
+		return "login/memInsertForm";
+	}
+	
+	@PostMapping(value="/memInsert")
+	public String memInsert(LoginVO lvo) {
+		
+		String mnum = ChabunUtils.getLoginMnum("D", productChabunService.getMemChabun().getMnum());
+		logger.info("mnum : " + mnum);
+		
+		lvo.setMnum(mnum);
+		
+		int nCnt = loginService.memInsert(lvo);
+		
+		if(nCnt > 0) {
+			
+			return "login/memInsert";
+		}
+		
+		return "#";
+	}
+	
+	
+}

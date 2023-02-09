@@ -1,0 +1,6 @@
+package main.a.b.product.common;
+
+public class product_Session {
+
+	static Logger logger = LogManager.getLogger(product_Session.class);
+}

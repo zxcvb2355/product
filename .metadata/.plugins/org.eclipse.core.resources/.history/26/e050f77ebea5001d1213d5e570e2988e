@@ -1,0 +1,16 @@
+package main.a.b.product.common.chabun.dao;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import main.a.b.product.vo.ProductVO;
+
+public class ProductChabunDAO {
+
+	@Autowired(required=false)
+	private SqlSession sqlSession;
+	
+	public ProductVO getProductChabun() {
+		return sqlSession.selectList("getProductChabun");
+	}
+}

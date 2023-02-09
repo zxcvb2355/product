@@ -1,0 +1,21 @@
+package main.a.b.product.common;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+public class ChabunUtils {
+
+	Logger logger = LogManager.getLogger(ChabunUtils.class);
+	
+	
+	public static String numPad(String dateFormat, String number) {
+		
+		for(int i = number.length(); i < 4; i++) {
+			number = "0" + number;
+		}
+		
+		String date = DataFormatUtils.dateFormats(dateFormat);
+		
+		return date.concat(number);
+	}
+}

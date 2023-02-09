@@ -1,0 +1,16 @@
+package main.a.b.product.common;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.oreilly.servlet.MultipartRequest;
+
+public class FileUploadUtils {
+	Logger logger = LogManager.getLogger(FileUploadUtils.class);
+	
+	private String imgLocation;
+	private int imgSize;
+	private String imgEncoding;
+	private MultipartRequest mr;
+	
+}

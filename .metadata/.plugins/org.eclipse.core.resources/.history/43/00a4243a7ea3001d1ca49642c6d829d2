@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main.a.b.product.dao.ProductDAO">
+
+<select id="productSelectAll" resultType="productvo" parameterType="productvo">
+
+SELECT * FROM
+  	      (
+		    SELECT 
+			TOP 100 PERCENT
+			A.PNUM AS PNUM,
+				     A.PNAME AS PNAME,
+				     A.PIMAGE AS PIMAGE,
+				     A.PPAY AS PPAY,
+				     B.PCOUNT AS PCOUNT,    
+		    CEILING(CONVERT(FLOAT, ROW_NUMBER() OVER(
+			<if test="lookStyle != null and lookStyle == '00'">
+   				<![CDATA[ORDER BY A.PNUM DESC]]>
+			</if>
+			<if test="lookStyle != null and lookStyle == '01'">
+		     	<![CDATA[ORDER BY A.PPAY DESC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '02'">
+		     	<![CDATA[ORDER BY A.PPAY ASC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '03'">
+		     	<![CDATA[ORDER BY A.PNAME ASC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '04'">
+		     	<![CDATA[ORDER BY A.PNAME DESC]]>
+		    </if>
+			)) / #{rowCount}) AS NOWNUM,
+     		     COUNT(A.PNUM) OVER() AS totalCount
+                   FROM   CPST_PRODUCT A,
+		     CPST_PRODUCT_DETAIL B, CPST_CATEGORY C
+  	      WHERE  B.PDELETEYN = 'Y'
+		     AND B.PCOUNTYN = 'N'
+		     <if test="pcategory != null and pcategory == '01'">
+		    	<![CDATA[AND C.PCATEGORY = #{pcategory}  ]]>
+		    </if>
+		     <if test="pcategory != null and pcategory == '02'">
+		    	<![CDATA[AND C.PCATEGORY = #{pcategory}  ]]>
+		    </if>
+		    <if test="pcategory_detail != null and pcategory_detail == '01'">
+		    	<![CDATA[AND C.PCATEGORY_DETAIL = #{pcategory_detail}]]>
+		    </if>
+		    <if test="pcategory_detail != null and pcategory_detail == '02'">
+		    	<![CDATA[AND C.PCATEGORY_DETAIL = #{pcategory_detail}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '01'">
+		    	<![CDATA[AND C.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '02'">
+		    	<![CDATA[AND C.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '03'">
+		    	<![CDATA[AND C.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '04'">
+		    	<![CDATA[AND C.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		     AND A.PNAME = B.PNAME AND B.PNAME = C.PNAME AND A.PNAME = C.PNAME
+		    <if test="minPay != null and minPay !='' and maxPay == ''">
+		    	<![CDATA[AND #{minPay} <= A.PPAY]]>
+		    </if>
+		    <if test="minPay =='' and minPay == null and maxPay != null">
+		    	<![CDATA[AND #{maxPay} >= A.PPAY]]>
+		    </if>
+		    <if test="minPay =='' and maxPay == ''">
+		    	<![CDATA[]]>
+		    </if>
+		    <if test="minPay != null and maxPay != null and minPay != '' and maxPay != ''">
+		    	<![CDATA[AND #{minPay} <= A.PPAY AND A.PPAY <= #{maxPay}]]>
+		    </if>
+			  ) D
+	WHERE D.NOWNUM = #{nowPage}
+
+
+</select>
+
+<select id="productSelectCount" parameterType="productvo" resultType="productvo">
+	
+	SELECT * FROM
+  	      (
+		    SELECT 
+			TOP 100 PERCENT
+			A.PNUM AS PNUM,
+				     A.PNAME AS PNAME,
+				     A.PIMAGE AS PIMAGE,
+				     A.PPAY AS PPAY,
+				     B.PCOUNT AS PCOUNT,    
+		    CEILING(CONVERT(FLOAT, ROW_NUMBER() OVER(
+			<if test="lookStyle != null and lookStyle == '00'">
+   				<![CDATA[ORDER BY A.PNUM DESC]]>
+			</if>
+			<if test="lookStyle != null and lookStyle == '01'">
+		     	<![CDATA[ORDER BY A.PPAY DESC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '02'">
+		     	<![CDATA[ORDER BY A.PPAY ASC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '03'">
+		     	<![CDATA[ORDER BY A.PNAME ASC]]>
+		    </if>
+		    <if test="lookStyle != null and lookStyle == '04'">
+		     	<![CDATA[ORDER BY A.PNAME DESC]]>
+		    </if>
+			)) / #{rowCount}) AS NOWNUM,
+     		     COUNT(A.PNUM) OVER() AS totalCount
+                   FROM   CPST_PRODUCT A,
+		     CPST_PRODUCT_DETAIL B
+  	      WHERE  B.PDELETEYN = 'Y'
+		     AND B.PCOUNTYN = 'N'
+		     <if test="pcategory != null and pcategory == '01'">
+		    	<![CDATA[AND B.PCATEGORY = #{pcategory}  ]]>
+		    </if>
+		     <if test="pcategory != null and pcategory == '02'">
+		    	<![CDATA[AND B.PCATEGORY = #{pcategory}  ]]>
+		    </if>
+		    <if test="pcategory_detail != null and pcategory_detail == '01'">
+		    	<![CDATA[AND B.PCATEGORY_DETAIL = #{pcategory_detail}]]>
+		    </if>
+		    <if test="pcategory_detail != null and pcategory_detail == '02'">
+		    	<![CDATA[AND B.PCATEGORY_DETAIL = #{pcategory_detail}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '01'">
+		    	<![CDATA[AND B.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '02'">
+		    	<![CDATA[AND B.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '03'">
+		    	<![CDATA[AND B.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		    <if test="detail_product != null and detail_product == '04'">
+		    	<![CDATA[AND B.DETAIL_PRODUCT = #{detail_product}]]>
+		    </if>
+		     AND A.PNAME = B.PNAME
+		     AND B.PCOUNT > 0
+		    <if test="minPay != null and minPay !='' and maxPay == ''">
+		    	<![CDATA[AND #{minPay} <= A.PPAY]]>
+		    </if>
+		    <if test="minPay =='' and minPay == null and maxPay != null">
+		    	<![CDATA[AND #{maxPay} >= A.PPAY]]>
+		    </if>
+		    <if test="minPay =='' and maxPay == ''">
+		    	<![CDATA[]]>
+		    </if>
+		    <if test="minPay != null and maxPay != null and minPay != '' and maxPay != ''">
+		    	<![CDATA[AND #{minPay} <= A.PPAY AND A.PPAY <= #{maxPay}]]>
+		    </if>
+			  ) C
+	WHERE C.NOWNUM = #{nowPage}
+
+
+</select>
+
+<select id="product" parameterType="productvo" resultType="productvo">
+SELECT A.PNAME AS PNAME, B.PCONTENT AS PCONTENT, A.PPAY AS PPAY, B.PCOUNT AS PCOUNT, A.PIMAGE AS PIMAGE
+FROM CPST_PRODUCT A, CPST_PRODUCT_DETAIL B
+WHERE A.PNUM = #{pnum} AND A.PNAME = B.PNAME
+
+</select>
+	
+<select id="checkCount" parameterType="productvo" resultType="String">
+
+SELECT B.PCOUNT AS PCOUNT FROM CPST_PRODUCT A, CPST_PRODUCT_DETAIL B
+WHERE A.PNAME =#{pname} AND A.PNAME = B.PNAME
+
+
+</select>
+
+<update id="productUpdate" parameterType="productvo">
+
+UPDATE CPST_PRODUCT_DETAIL SET PCOUNTYN = 'Y' WHERE PNAME = #{pname}
+
+
+</update>	
+	
+
+</mapper>

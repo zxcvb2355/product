@@ -1,0 +1,20 @@
+package main.a.b.product.common;
+
+import java.io.File;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.oreilly.servlet.multipart.FileRenamePolicy;
+
+public class FileNameCheck implements FileRenamePolicy {
+
+	Logger logger = LogManager.getLogger(FileNameCheck.class);
+	
+	@Override
+	public File rename(File f) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

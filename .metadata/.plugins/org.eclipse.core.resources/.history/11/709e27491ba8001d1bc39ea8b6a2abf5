@@ -1,0 +1,19 @@
+package main.a.b.login.controller;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class LoginController {
+
+	Logger logger = LogManager.getLogger(LoginController.class);
+	
+	@PostMapping(value="/loginForm")
+	public String loginForm() {
+		
+		return "login/loginForm";
+	}
+	
+}

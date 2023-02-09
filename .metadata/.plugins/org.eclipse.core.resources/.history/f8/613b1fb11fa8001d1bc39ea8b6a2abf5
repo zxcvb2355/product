@@ -1,0 +1,207 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.io.File" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="org.apache.log4j.LogManager" %>
+<%@ page import="org.apache.log4j.Logger" %>
+<%@ page import="main.a.b.product.common.NumUtils" %>
+<%
+	Logger logger = LogManager.getLogger(this.getClass());
+	logger.info("paging 진입");
+	
+	String url = null;
+	String str = null;
+	String val = null;
+	String vl = "val=";
+	String minPay = "";
+	String maxPay = "";
+	String pcategory = "";
+	String pcategory_detail = "";
+	String detail_product = "";
+	String mintest = "";
+	String maxtest = "";
+	
+	url = request.getParameter("url");
+	logger.info(url);
+	
+	str = request.getParameter("str");
+	logger.info(str);
+	
+	val = request.getParameter("val");
+	logger.info("val : " + val);
+	
+	if(request.getParameter("minPay") != null){
+		minPay = request.getParameter("minPay");
+		logger.info(request.getParameter("minPay"));
+		logger.info("minPay : " + minPay);
+	}
+	
+	
+		maxPay = request.getParameter("maxPay");
+		logger.info("maxPay : " + maxPay);
+
+		
+	if(request.getParameter("pcategory") != null){	
+		pcategory = request.getParameter("pcategory");
+	}
+		
+	
+	if(request.getParameter("pcategory_detail") != null){
+		pcategory_detail = request.getParameter("pcategory_detail");
+	}
+	
+	
+	if(request.getParameter("detail_product")!=null){
+		detail_product = request.getParameter("detail_product");
+	}
+	
+	
+	if(str != null){
+		str = str + "&";
+		logger.info(str);
+		
+	}
+
+	
+	int rowCount = 0;
+	int groupSize = 0;
+	int nowPage = 0;
+	int totalCount = 0;
+	int pageCount = 0;
+	
+	
+	
+	
+	if(request.getParameter("rowCount")!= null){
+		rowCount = Integer.parseInt(request.getParameter("rowCount"));
+		logger.info(rowCount);
+	}
+
+	if(request.getParameter("groupSize") != null){
+		groupSize = Integer.parseInt(request.getParameter("groupSize"));
+		logger.info(groupSize);
+	}
+
+	if(request.getParameter("nowPage")!= null){
+		nowPage = Integer.parseInt(request.getParameter("nowPage"));
+		logger.info(nowPage);
+	}
+
+	if(request.getParameter("totalCount") != null){
+		totalCount = Integer.parseInt(request.getParameter("totalCount"));
+		logger.info("전체 글갯수 totalCount : " + totalCount);
+	}
+	
+	pageCount = (int)Math.ceil(totalCount / (rowCount + 0.0));
+	logger.info(pageCount);
+	
+	int curGroup = (nowPage-1) / groupSize;
+	logger.info(curGroup);
+	
+	int linkPage = curGroup * groupSize;
+	logger.info("linkPage : " + linkPage);
+	int nowpa = linkPage;
+	
+
+
+%>    	
+	<p align="right">
+	
+<%
+	if(curGroup > 0){
+
+	//boardSelectList.jsp&curPage=1
+	//boardSelectList.jsp&curPage=0		
+%>	
+	<!-- 쿼리스트링 날릴려고 작성한 곳 -->
+	<div align="center">
+	<ul id="block">
+			<li class="link">
+				<a href="javascript:void(0)" onClick="javascript:goPost(<%=linkPage%>)" class="hi">&lt;</a>
+			</li>
+<%		
+	}else{
+%>	
+ 	<div align="center">
+	<ul id="block">
+			<li class="link">
+				<span class="hi">&lt;</span>
+			</li>
+<%
+	} 
+	//다음 링크를 위해 증가시킴
+	linkPage++;
+	logger.info("증가된 linkPage : " + linkPage);
+			//groupSize 5 그래서 5
+	int loopCount = groupSize;
+	logger.info("loopCount : " + loopCount);
+	
+	//그룹범위내에서 페이지 링크만듬
+	//5>0 && 1<=40
+	while((loopCount > 0) && (linkPage <= pageCount)){
+				//5            6  <=29
+		//6 == 6
+	if(linkPage == nowPage){
+		logger.info("그룹범위내에서 페이지 링크if");
+%>	
+	<li class="link">
+	<a href="javascript:void(0)" onClick="javascript:goPost(<%=linkPage%>)" class="hello"><%=linkPage%></a>
+	</li>
+
+<% 			
+	}else{
+		logger.info("그룹범위내에서 페이지 링크 else");
+		logger.info("linkPage 값 증가 : " + linkPage);
+%>
+	<li class="link">
+				<a href="javascript:void(0)" onClick="javascript:goPost(<%=linkPage%>)" class="hi" id="nowpa"><%=linkPage%></a>
+			</li>
+<% 	
+	}
+	
+	linkPage++;
+	loopCount--;
+	}
+	
+	//다음그룹이 있는 경우
+	//  6  40
+	//중간의 경우 
+	if(linkPage <= pageCount) {
+		logger.info("다음그룹이 있는경우 linkPage : " + linkPage);
+		logger.info("다음그룹이 있는 경우 pageCount : " + pageCount);
+		
+		//boardSelectList.jsp?&curPage=6
+		//boardSelectList.jsp?&curPage=40		
+%>
+<li class="link">
+			<a href="javascript:void(0)" onClick="javascript:goPost(<%=linkPage%>)" class="hi">&gt;</a>
+		</li>
+		</ul>
+		</div>
+<% 	
+	//마지막 페이지의 경우
+	}else{
+		
+%>	
+	<li class="link">
+			<span class="hi">&gt;</span>
+		</li>
+		</ul>
+		</div> 
+<% 
+	}
+	
+%>
+</p>
+	 	
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+</body>
+</html>

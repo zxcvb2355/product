@@ -1,0 +1,14 @@
+package main.a.b.product.common;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+public class DataFormatUtils {
+
+	Logger logger = LogManager.getLogger(DataFormatUtils.class);
+	
+	public static String dateFormats(String dateFormat) {
+		
+		return "";
+	}
+}

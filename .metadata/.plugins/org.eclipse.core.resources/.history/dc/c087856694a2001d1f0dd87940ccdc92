@@ -1,0 +1,15 @@
+package main.a.b.product.dao;
+
+import java.util.List;
+
+import main.a.b.product.vo.ProductVO;
+
+public interface ProductDAO {
+	List<ProductVO> productSelectAll(ProductVO pvo);
+	
+	List<ProductVO> productSelectCount(ProductVO pvo);
+	
+	List<ProductVO> product(ProductVO pvo);
+	
+	String checkCount(ProductVO pvo);
+}

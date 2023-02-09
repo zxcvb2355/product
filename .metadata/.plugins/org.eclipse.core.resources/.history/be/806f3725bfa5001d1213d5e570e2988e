@@ -1,0 +1,26 @@
+package main.a.b.product.common.chabun.service;
+
+import org.apache.log4j.LogManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import main.a.b.product.common.chabun.dao.ProductChabunDAO;
+import main.a.b.product.vo.ProductVO;
+
+@Service
+@Transactional
+public class ProductChabunServiceImpl implements ProductChabunService {
+	Logger logger = LogManager.getLogger(ProductChabunServiceImpl.class);
+	
+	@Autowired(required=false)
+	private ProductChabunDAO productChabunDAO;
+
+	@Override
+	public ProductVO getProductChabun() {
+		// TODO Auto-generated method stub
+		return productChabunDAO.getProductChabun();
+	}
+	
+	
+}

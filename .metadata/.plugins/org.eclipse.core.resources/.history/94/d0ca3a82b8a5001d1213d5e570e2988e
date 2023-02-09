@@ -1,0 +1,65 @@
+package main.a.b.product.common;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+public class product_Session {
+
+	static Logger logger = LogManager.getLogger(product_Session.class);
+
+	private static final String SESSION_DATA = "pnum";
+	
+	private static final String SESSION_TOKKEN = "access_token";
+
+	
+	private static class LazyHolder {
+		
+		public static final product_Session SESSIONLISTENER_INSTANCE = new product_Session(); 
+	}
+	
+	
+	public product_Session getInstance() {
+		return LazyHolder.SESSIONLISTENER_INSTANCE;
+	}
+
+	public product_Session() {}
+	
+	public boolean setSession(final HttpServletRequest req, final String product_number) {
+		
+		HttpSession hSession = null;
+		String session_val = null;
+		int nCnt = 0;
+		
+		hSession = req.getSession();
+		session_val = (String)hSession.getAttribute(SESSION_DATA);
+	
+		logger.info("hSession: " + hSession);
+		logger.info("session_val: " + session_val);
+		
+		if(session_val != null) {
+			boolean b1 = session_val.equals(hSession);
+			
+			if(b1) {
+				++nCnt;
+			}else {
+				System.out.println("세션에 저장된 값과 불일치 : ");
+			}
+		
+		}else {
+			System.out.println("세션에 값 없음 : ");
+		}
+		
+		if(nCnt == 0) { // 정상적으로 세션이 처리되지 않는 경우
+			hSession.setAttribute(SESSION_DATA, product_number);
+			hSession.setMaxInactiveInterval(60 * 30); // 지속 시간 30분
+		
+			logger.info("최조 세팅 : " + hSession.getAttribute(SESSION_DATA));
+			return false;
+		}
+		return true;
+	}
+	
+}

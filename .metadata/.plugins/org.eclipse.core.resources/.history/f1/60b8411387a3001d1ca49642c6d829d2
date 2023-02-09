@@ -1,0 +1,14 @@
+package main.a.b.product.common;
+
+public abstract class ConstPack {
+
+	//paging
+    public static final int PRODUCT_ROWCOUNT = 2;
+    public static final int PRODUCT_GROUPSIZE = 5;
+    public static final int PRODUCT_NOWPAGE = 1;
+    public static final int PRODUCT_TOTALCOUNT = 0;
+
+    //imageupload
+    public static final String PRODUCT_IMG_LOCATION = "";
+    
+}

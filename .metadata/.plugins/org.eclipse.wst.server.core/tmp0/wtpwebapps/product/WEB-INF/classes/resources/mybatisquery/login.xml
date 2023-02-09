@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+          "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main.a.b.login.dao.LoginDAO">
+
+	<insert id="memInsert" parameterType="loginvo">
+	
+		INSERT INTO CPST_MEMBER
+		VALUES(#{mnum}, #{mname}, #{mid}, #{mpw}, #{memail}, GETDATE(), 'Y')
+	
+	
+	</insert>
+
+	<select id="idpwCheck" parameterType="loginvo" resultType="loginvo">
+	
+		SELECT A.MID AS MID FROM CPST_MEMBER A WHERE A.MID = #{mid} AND A.MPW = #{mpw}
+	
+	
+	
+	</select>
+
+
+
+</mapper>

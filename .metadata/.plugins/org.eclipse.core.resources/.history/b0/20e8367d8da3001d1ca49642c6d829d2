@@ -1,0 +1,60 @@
+package main.a.b.product.common;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.oreilly.servlet.MultipartRequest;
+
+public class FileUploadUtils {
+	Logger logger = LogManager.getLogger(FileUploadUtils.class);
+	
+	private String imgLocation;
+	private int imgSize;
+	private String imgEncoding;
+	private MultipartRequest mr;
+	public FileUploadUtils(String imgLocation, int imgSize, String imgEncoding) {
+		
+		this.imgLocation = imgLocation;
+		this.imgSize = imgSize;
+		this.imgEncoding = imgEncoding;
+	}
+	
+	public boolean imgCheck(HttpServletRequest req) {
+		logger.info("imgInsert 진입");
+		
+		boolean bool = false;
+		
+		bool = imgInsert(req, imgLocation);
+		logger.info("이미지 유무 : 있으면 true 없으면 false : " + bool);
+		
+		return bool;
+	}
+	
+	public boolean imgInsert(HttpServletRequest req, String imgLocation) {
+		
+		boolean bool = false;
+		
+		try {
+			
+			mr = new MultipartRequest(req, imgLocation, imgSize, imgEncoding, new FileNameCheck());
+			logger.info("mr : " + mr);
+			bool = true;
+			
+			
+		}catch(Exception e) {
+			logger.info("에러 발생 지점 : " + e.getMessage());
+		}
+		
+		
+		return bool;
+	}
+	
+	//데이터 뽑아내기 로직 controller에서 사용
+	public String getParameter(String property) {
+		
+	}
+	
+	
+}

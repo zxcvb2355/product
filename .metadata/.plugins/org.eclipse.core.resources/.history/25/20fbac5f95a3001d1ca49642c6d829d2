@@ -1,0 +1,8 @@
+package main.a.b.product.common.chabun.service;
+
+import main.a.b.product.vo.ProductVO;
+
+public interface ProductChabunService {
+
+	public ProductVO getBoardChabun();
+}

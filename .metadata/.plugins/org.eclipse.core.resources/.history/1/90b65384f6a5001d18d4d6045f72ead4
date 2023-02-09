@@ -1,0 +1,54 @@
+package main.a.b.product.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import main.a.b.product.vo.ProductVO;
+
+@Repository
+public class ProductDAO {
+	@Autowired(required=false)
+	private SqlSession sqlSession;
+	
+
+	public List<ProductVO> productSelectAll(ProductVO pvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("productSelectAll", pvo);
+	}
+
+
+	public List<ProductVO> productSelectCount(ProductVO pvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("productSelectCount", pvo);
+	}
+
+
+	public List<ProductVO> product(ProductVO pvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("product", pvo);
+	}
+
+
+	public String checkCount(ProductVO pvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("checkCount", pvo);
+	}
+
+
+	public int productUpdate(ProductVO pvo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("productUpdate", pvo);
+	}
+
+	public int productInsert(ProductVO pvo) {
+		return sqlSession.insert("productInsert", pvo);
+	}
+
+	public int productDelete(ProductVO pvo) {
+		return sqlSession.update("productDelete", pvo);
+	}
+	
+}

@@ -1,0 +1,32 @@
+package main.a.b.product.common;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+public class DataFormatUtils {
+
+	Logger logger = LogManager.getLogger(DataFormatUtils.class);
+	
+	
+	public static String yyyymmdd() {
+		return new SimpleDateFormat("yyyyMMdd").formats(new Date());
+	}
+	
+	
+	
+	
+	
+	public static String dateFormats(String dateFormat) {
+		
+		String date = "";
+		
+		if(dateFormat != null && dateFormat.length() > 0) {
+			
+			
+			
+		}
+		
+		
+		return "";
+	}
+}
